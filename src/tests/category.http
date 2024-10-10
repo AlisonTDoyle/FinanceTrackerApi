@@ -1,0 +1,36 @@
+# Variables
+@endpoint = http://localhost:3000/api/v1/category
+
+# Create
+# @name createNewCategory
+POST {{endpoint}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "Name": "Groceries",
+    "UserId": "1234"
+}
+###
+
+# Read
+# @name readAllCategories
+GET {{endpoint}} HTTP/1.1
+Content-Type: application/json
+###
+
+# Update
+# @name updateCategory
+PUT {{endpoint}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "Name": "Groceries",
+    "UserId": "1234"
+}
+###
+
+# Delete
+# @name deleteCategory
+DELETE  {{endpoint}} HTTP/1.1
+Content-Type: application/json
+###
