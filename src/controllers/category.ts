@@ -19,7 +19,7 @@ export const createCategory = async (req:Request, res:Response) => {
                 message: `Created user with id ${result.insertedId}`
             });
         } else {
-            res.status(500).send("Error: Failed to create user");
+            res.status(500).send("Error: Failed to create category");
         }
     } catch (error) {
         let errorMessage : string;
@@ -66,9 +66,9 @@ export const readCategoryById = async (req:Request, res:Response) => {
         let query = { _id: new ObjectId(id) };
 
         // Read in category
-        const categories = (await categoryCollection.findOne(query)) as Category;
+        const category = (await categoryCollection.findOne(query)) as Category;
 
-        res.status(200).json(categories);
+        res.status(200).json(category);
     } catch (error) {
         let errorMessage : string;
 
