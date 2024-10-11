@@ -10,13 +10,14 @@ dotenv.config();
 const PORT = process.env.PORT || 3001;
 const app: Application = express();
 
-// Adding extra functionality
+// Adding functionality
+app.use(express.json());
 app.use('/api/v1/category', categoryRoutes);
 
 // Routes
-app.get("/ping", async (_req: Request, res: Response) => {
+app.get("/test", async (_req: Request, res: Response) => {
     res.send({
-        message: "hello from Una",
+        message: "Hello World!",
     });
 });
 

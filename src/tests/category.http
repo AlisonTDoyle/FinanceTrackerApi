@@ -7,30 +7,44 @@ POST {{endpoint}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "Name": "Groceries",
-    "UserId": "1234"
+    "Name": "Bills",
+    "UserId": "4321"
 }
 ###
+@categoryId = {{createNewCategory.response.headers.location}}
 
 # Read
 # @name readAllCategories
 GET {{endpoint}} HTTP/1.1
 Content-Type: application/json
+
+{
+}
+###
+
+# @name readCatgoriesByUser
+GET {{endpoint}} HTTP/1.1
+Content-Type: application/json
+###
+
+# @name readCategoryById
+GET {{endpoint}}/{{categoryId}} HTTP/1.1
+Content-Type: application/json
 ###
 
 # Update
 # @name updateCategory
-PUT {{endpoint}} HTTP/1.1
+PUT {{endpoint}}/{{categoryId}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "Name": "Groceries",
+    "Name": "(Not) Groceries",
     "UserId": "1234"
 }
 ###
 
 # Delete
 # @name deleteCategory
-DELETE  {{endpoint}} HTTP/1.1
+DELETE  {{endpoint}}/{{categoryId}} HTTP/1.1
 Content-Type: application/json
 ###
