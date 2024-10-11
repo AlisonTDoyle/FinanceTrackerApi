@@ -16,7 +16,7 @@ export const createCategory = async (req:Request, res:Response) => {
         // Return result of action
         if (result) {
             res.status(201).location(`${result.insertedId}`).json({
-                message: `Created user with id ${result.insertedId}`
+                message: `Created category with id ${result.insertedId}`
             });
         } else {
             res.status(500).send("Error: Failed to create category");

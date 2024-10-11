@@ -8,9 +8,9 @@ POST {{endpoint}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Bills",
+    "name": "Education",
     "user": "670949c97860dae8d02c05da",
-    "color": "blue"
+    "color": "yellow"
 }
 ###
 
