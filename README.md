@@ -6,6 +6,7 @@ classDiagram
 		    ObjectId _id
         string UserID
         string Name
+		string Color
     }
     
     class Transaction{
