@@ -91,3 +91,32 @@ export const updateTransaction = async (req:Request, res:Response) => {
 }
 
 // Delete methods
+export const deleteTransaction = async (req:Request, res:Response) => {
+    try {
+        // Parse id and convert to query
+        let id: string = req.params.id;
+        let query = { _id: new ObjectId(id) };
+
+        // Delete from database
+        const result = await transactionCollection.deleteOne(query);
+
+        // Return result of action
+        if (result && result.deletedCount) {
+            res.status(202).json({ message: `Successfully removed transaction with id ${id}` });
+        } else if (!result) {
+            res.status(400).json({ message: `Failed to remove transaction with id ${id}` });
+        } else if (!result.deletedCount) {
+            res.status(404).json({ message: `no transaction fround with id ${id}` });
+        }
+    } catch (error) {
+        let errorMessage: string;
+
+        if (error instanceof Error) {
+            errorMessage = `Error deleting user:\n${error.message}`
+        } else {
+            errorMessage = `Error: ${error}`
+        }
+
+        res.status(400).send(errorMessage);
+    }
+}

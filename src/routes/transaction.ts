@@ -2,6 +2,7 @@
 import express, { Router } from "express";
 import { 
     createTransaction,
+    deleteTransaction,
     readTransaction,
     updateTransaction
  } from "../controllers/transactions";
@@ -14,7 +15,9 @@ router.post('/', createTransaction);
 
 router.get('/', readTransaction);
 
-router.put('/:id', updateTransaction)
+router.put('/:id', updateTransaction);
+
+router.delete('/:id', deleteTransaction);
 
 // Make router accessable
 export default router;
