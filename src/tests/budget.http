@@ -1,0 +1,15 @@
+# Variables
+@endpoint = http://localhost:3000/api/v1/budget
+@categoryId = {{createNewBudget.response.headers.location}}
+
+# Create
+# @name createNewBudget
+POST {{endpoint}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Education",
+    "user": "670949c97860dae8d02c05da",
+    "color": "yellow"
+}
+###
