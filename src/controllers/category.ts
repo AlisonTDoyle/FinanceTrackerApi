@@ -1,12 +1,21 @@
 // Imports
 import { Request, Response } from "express";
 import { categoryCollection } from "../database";
-import { Category } from "../models/category";
+import { Category, ValidateCategory } from "../models/category";
 import { ObjectId } from "mongodb";
+import Joi from "joi";
 
 // Create methods
 export const createCategory = async (req:Request, res:Response) => {
     try {
+        // Validate category to be entered
+        let validationResult : Joi.ValidationResult = ValidateCategory(req.body);
+
+        if (validationResult.error) {
+            res.status(400).json(validationResult.error);
+            return;
+        }
+
         // Create category
         let newCategory : Category = req.body as Category;
 
@@ -85,6 +94,14 @@ export const readCategoryById = async (req:Request, res:Response) => {
 // Update methods
 export const updateCategory = async (req:Request, res:Response) => {
     try {
+        // Validate updated details
+        let validationResult : Joi.ValidationResult = ValidateCategory(req.body);
+
+        if (validationResult.error) {
+            res.status(400).json(validationResult.error);
+            return;
+        }
+
         // Parse id and convert to query
         let id: string = req.params.id;
         let query = { _id: new ObjectId(id) };
