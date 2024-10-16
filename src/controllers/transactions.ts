@@ -1,14 +1,23 @@
 // Imports
 import { Request, Response } from "express";
 import { transactionCollection } from "../database";
-import { Transaction } from "../models/transaction";
+import { Transaction, ValidateTransaction } from "../models/transaction";
 import { ObjectId } from "mongodb";
+import Joi from "joi";
 
 // Properties
 
 // Create methods
 export const createTransaction = async (req: Request, res: Response) => {
     try {
+        // Validate transaction to be entered
+        let validationResult: Joi.ValidationResult = ValidateTransaction(req.body);
+
+        if (validationResult.error) {
+            res.status(400).json(validationResult.error);
+            return;
+        }
+
         // Create transaction
         let newTransaction: Transaction = req.body as Transaction;
 
@@ -67,6 +76,14 @@ export const readTransaction = async (req: Request, res: Response) => {
 // Update methods
 export const updateTransaction = async (req: Request, res: Response) => {
     try {
+        // Validate updated details
+        let validationResult: Joi.ValidationResult = ValidateTransaction(req.body);
+
+        if (validationResult.error) {
+            res.status(400).json(validationResult.error);
+            return;
+        }
+
         // Parse id and convert to query
         let id: string = req.params.id;
         let query = { _id: new ObjectId(id) };
