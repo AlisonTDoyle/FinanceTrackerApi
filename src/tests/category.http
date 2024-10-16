@@ -9,8 +9,8 @@ Content-Type: application/json
 
 {
     "name": "Education",
-    "user": "670949c97860dae8d02c05da",
-    "color": "yellow"
+    "user": "670f7e3531c9e7ae86c880e9",
+    "color": "#ffff00"
 }
 ###
 
