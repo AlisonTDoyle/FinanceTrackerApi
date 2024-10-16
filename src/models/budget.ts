@@ -1,3 +1,4 @@
+import Joi from "joi";
 import { Allocation } from "./allocation";
 
 export interface Budget {
@@ -7,4 +8,16 @@ export interface Budget {
     allocations:Allocation[];
     start_date:Date;
     end_date:Date;
+}
+
+export const ValidateBudget = (budget:Budget) => {
+    const budgetSchema = Joi.object<Budget>({
+        user: Joi.string().hex().length(24).required(),
+        total: Joi.number().required(),
+        allocations: Joi.any(),
+        start_date: Joi.date(),
+        end_date: Joi.date()
+    });
+
+    return budgetSchema.validate(budget);
 }

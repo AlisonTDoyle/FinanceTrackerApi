@@ -3,11 +3,20 @@ import { Request, Response } from "express";
 import { budgetCollection, categoryCollection } from "../database";
 import { Category } from "../models/category";
 import { ObjectId } from "mongodb";
-import { Budget } from "../models/budget";
+import { Budget, ValidateBudget } from "../models/budget";
+import Joi from "joi";
 
 // Create methods
 export const createBudget = async (req:Request, res:Response) => {
     try {
+        // Validate budget to be entered
+        let validationResult: Joi.ValidationResult = ValidateBudget(req.body);
+
+        if (validationResult.error) {
+            res.status(400).json(validationResult.error);
+            return;
+        }
+
         // Create budget
         let newBudget : Budget = req.body as Budget;
 
@@ -58,6 +67,14 @@ export const readBudget = async (req:Request, res:Response) => {
 // Update methods
 export const updateBudget = async (req:Request, res:Response) => {
     try {
+        // Validate updated details
+        let validationResult: Joi.ValidationResult = ValidateBudget(req.body);
+
+        if (validationResult.error) {
+            res.status(400).json(validationResult.error);
+            return;
+        }
+
         // Parse id and convert to query
         let id: string = req.params.id;
         let query = { _id: new ObjectId(id) };
