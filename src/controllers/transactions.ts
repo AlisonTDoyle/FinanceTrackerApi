@@ -4,11 +4,13 @@ import { transactionCollection } from "../database";
 import { Transaction } from "../models/transaction";
 import { ObjectId } from "mongodb";
 
+// Properties
+
 // Create methods
-export const createTransaction = async (req:Request, res:Response) => {
+export const createTransaction = async (req: Request, res: Response) => {
     try {
         // Create transaction
-        let newTransaction : Transaction = req.body as Transaction;
+        let newTransaction: Transaction = req.body as Transaction;
 
         // Add to database
         const result = await transactionCollection.insertOne(newTransaction);
@@ -22,7 +24,7 @@ export const createTransaction = async (req:Request, res:Response) => {
             res.status(500).send("Error: Failed to create transaction");
         }
     } catch (error) {
-        let errorMessage : string;
+        let errorMessage: string;
 
         if (error instanceof Error) {
             errorMessage = `Error inserting transaction:\n${error.message}`
@@ -35,14 +37,22 @@ export const createTransaction = async (req:Request, res:Response) => {
 };
 
 // Read methods
-export const readTransaction = async (req:Request, res:Response) => {
+export const readTransaction = async (req: Request, res: Response) => {
     try {
+        // Get page
+        const page = parseInt(req.query.page as string, 10) || 1;
+        const pageSize = parseInt(req.query.pageSize as string, 0) || 0;
+
         // Read in all categories
-        const transactions = (await transactionCollection.find(req.body).toArray()) as Transaction[];
+        const transactions = (await transactionCollection
+            .find(req.body)
+            .skip((page - 1) * pageSize)
+            .limit(pageSize)
+            .toArray()) as Transaction[];
 
         res.status(200).json(transactions);
     } catch (error) {
-        let errorMessage : string;
+        let errorMessage: string;
 
         if (error instanceof Error) {
             errorMessage = `Error fetching transactions:\n${error.message}`
@@ -55,14 +65,14 @@ export const readTransaction = async (req:Request, res:Response) => {
 };
 
 // Update methods
-export const updateTransaction = async (req:Request, res:Response) => {
+export const updateTransaction = async (req: Request, res: Response) => {
     try {
         // Parse id and convert to query
         let id: string = req.params.id;
         let query = { _id: new ObjectId(id) };
 
         // Create updated user
-        let updateTransaction : Transaction = req.body as Transaction;
+        let updateTransaction: Transaction = req.body as Transaction;
 
         // Update database
         const result = await transactionCollection.updateOne(query, { $set: updateTransaction });
@@ -91,7 +101,7 @@ export const updateTransaction = async (req:Request, res:Response) => {
 }
 
 // Delete methods
-export const deleteTransaction = async (req:Request, res:Response) => {
+export const deleteTransaction = async (req: Request, res: Response) => {
     try {
         // Parse id and convert to query
         let id: string = req.params.id;
