@@ -1,12 +1,21 @@
 // Imports
 import { Request, Response } from "express";
 import { userCollection } from "../database";
-import { User } from "../models/user";
+import { User, ValidateUser } from "../models/user";
 import { ObjectId } from "mongodb";
+import Joi from "joi";
 
 // Create methods
 export const createUser = async (req:Request, res:Response) => {
     try {
+        // Validate user to be entered
+        let validationResult: Joi.ValidationResult = ValidateUser(req.body);
+
+        if (validationResult.error) {
+            res.status(400).json(validationResult.error);
+            return;
+        }
+
         // Create user
         let newUser : User = req.body as User;
 
@@ -61,6 +70,14 @@ export const readUserById = async (req:Request, res:Response) => {
 // Update methods
 export const updateUser = async (req:Request, res:Response) => {
     try {
+        // Validate updated details
+        let validationResult: Joi.ValidationResult = ValidateUser(req.body);
+
+        if (validationResult.error) {
+            res.status(400).json(validationResult.error);
+            return;
+        }
+
         // Parse id and convert to query
         let id: string = req.params.id;
         let query = { _id: new ObjectId(id) };
