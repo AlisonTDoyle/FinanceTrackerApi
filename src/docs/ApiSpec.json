@@ -1,0 +1,241 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Finance Tracker Data API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/api/v1",
+            "description": "Dev server"
+        }
+    ],
+    "paths": {
+        "/user": {
+            "post": {
+                "description": "Creates new user",
+                "parameters": [
+                    {
+                        "name": "New user object",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "get": {
+                "description": "Fetches singular user by their ID",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "description": "User's MongoDB ID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "description": "Update user",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "description": "User's MongoDB ID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Remove user",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "description": "User's MongoDB ID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/category": {
+            "post": {
+                "description": "Creates new category",
+                "parameters": [
+                    {
+                        "name": "New category object",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "get": {
+                "description": "Reads in all categories",
+                "parameters": [
+                    {
+                        "name": "filters",
+                        "in": "query",
+                        "description": "Contains any filters"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "Returns all categories realted to user"
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Returns category that matches provided ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates existing category",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category's MongoDB ID"
+                    },
+                    {
+                        "name": "Updated category object",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Removes category",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category's MongoDB ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/transaction": {
+            "get": {
+                "description": "Fetches transactions",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "What page of transactions to return"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "path",
+                        "description": "Number of results to return"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "Returns results related to user provided"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates existing transaction",
+                "parameters": [
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "description": "Transaction's MongoDB ID"
+                    },
+                    {
+                        "name": "Updated transaction object",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "description": "Transaction's MongoDB ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create new transaction",
+                "parameters": [
+                    {
+                        "name": "New transaction object",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/budget": {
+            "get": {
+                "description": "Fetches budgets",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+        
+    }
+}
