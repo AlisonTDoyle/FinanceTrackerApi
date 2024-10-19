@@ -228,7 +228,71 @@
         "/budget": {
             "get": {
                 "description": "Fetches budgets",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "What page of transactions to return"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "path",
+                        "description": "Number of results to return"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "Returns results related to user provided"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "description": "Update existing budget",
+                "parameters": [
+                    {
+                        "name": "budgetId",
+                        "in": "path",
+                        "description": "Budget's MongoDB ID"
+                    },
+                    {
+                        "name": "Updated budget object",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create new budget",
+                "parameters": [
+                    {
+                        "name": "New budget object",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Remove budget",
+                "parameters": [
+                    {
+                        "name": "budgetId",
+                        "in": "path",
+                        "description": "Budget's MongoDB ID"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
