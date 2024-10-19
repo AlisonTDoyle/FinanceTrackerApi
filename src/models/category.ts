@@ -7,6 +7,16 @@ export interface Category {
     user:string;
 }
 
+/*
+    Planned colors for categories:
+    - Red
+    - Blue
+    - Yellow
+    - Purple
+    - Green
+    - Orange
+*/
+
 export const ValidateCategory = (category:Category) => {
     const categorySchema = Joi.object<Category>({
         name: Joi.string().min(3).max(50).required(),

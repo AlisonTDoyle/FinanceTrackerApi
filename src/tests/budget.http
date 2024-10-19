@@ -1,7 +1,7 @@
 # Variables
 @endpoint = http://localhost:3000/api/v1/budget
 @budgetId = {{createNewBudget.response.headers.location}}
-@userId = ""
+@userId = "670949c97860dae8d02c05da"
 
 # Create
 # @name createNewBudget
@@ -32,8 +32,8 @@ Content-Type: application/json
 ###
 
 # Read
-# @name readAllBudgets
-GET {{endpoint}} HTTP/1.1
+# @name readBudgets
+GET {{endpoint}}?page=1&pageSize=1 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -41,12 +41,12 @@ Content-Type: application/json
 }
 ###
 
-# @name readBudgetOfUser
-GET {{endpoint}} HTTP/1.1
+# @name readBudgetsByUser
+GET {{endpoint}}?page=1&pageSize=1&userId=670949c97860dae8d02c05da HTTP/1.1
 Content-Type: application/json
 
 {
-    "user": {{userId}}
+
 }
 ###
 

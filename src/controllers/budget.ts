@@ -47,8 +47,26 @@ export const createBudget = async (req:Request, res:Response) => {
 // Read methods
 export const readBudget = async (req:Request, res:Response) => {
     try {
+        // Get page
+        const page = parseInt(req.query.page as string) || 1;
+        const pageSize = parseInt(req.query.pageSize as string) || 0;
+        
+        // Set up filters
+        const userId = req.query.userId;
+        let filter = req.body;
+        
+        if (userId != null) {
+            filter.user = userId;
+        }
+
+        console.log(filter)
+
         // Read in all categories
-        const budgets = (await budgetCollection.find(req.body).toArray()) as Budget[];
+        const budgets = (await budgetCollection
+            .find(filter)
+            .skip((page - 1) * pageSize)
+            .limit(pageSize)
+            .toArray()) as Budget[];
 
         res.status(200).json(budgets);
     } catch (error) {

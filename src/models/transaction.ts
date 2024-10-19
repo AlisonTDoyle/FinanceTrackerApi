@@ -15,7 +15,7 @@ export const ValidateTransaction = (transaction:Transaction) => {
     const transactionSchema = Joi.object<Transaction>({
         user: Joi.string().hex().length(24).required(),
         name: Joi.string().min(3).required(),
-        description: Joi.string().min(0),
+        description: Joi.string().min(0).max(150),
         category: Joi.string().hex().length(24),
         date: Joi.date().required(),
         price: Joi.number().min(0).required(),

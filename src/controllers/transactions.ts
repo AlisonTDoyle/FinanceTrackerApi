@@ -49,8 +49,16 @@ export const createTransaction = async (req: Request, res: Response) => {
 export const readTransaction = async (req: Request, res: Response) => {
     try {
         // Get page
-        const page = parseInt(req.query.page as string, 10) || 1;
-        const pageSize = parseInt(req.query.pageSize as string, 0) || 0;
+        const page = parseInt(req.query.page as string) || 1;
+        const pageSize = parseInt(req.query.pageSize as string) || 0;
+        
+        // Set up filters
+        const userId = req.query.userId;
+        let filter = req.body;
+        
+        if (userId != null) {
+            filter.user = userId;
+        }
 
         // Read in all categories
         const transactions = (await transactionCollection
