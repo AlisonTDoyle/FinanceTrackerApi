@@ -21,8 +21,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "201": {
+                        "description": "Returns a success message and new user ID"
+                    },
+                    "400": {
+                        "description": "Returns an error message due to validation or a miscellaneous error"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
             },
@@ -38,7 +44,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Returns the user details"
+                    },
+                    "400": {
+                        "description": "Returns misc error"
                     }
                 }
             },
@@ -53,8 +62,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "202": {
+                        "description": "Success message with updated user id"
+                    },
+                    "400": {
+                        "description": "Misc error message"
+                    },
+                    "404": {
+                        "description": "Couldn't find user to update"
                     }
                 }
             },
@@ -69,8 +84,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "202": {
+                        "description": "Success message with deleted user's id"
+                    }, 
+                    "400": {
+                        "description": "Misc. error message"
+                    },
+                    "404": {
+                        "description": "Couldn't find user to delete"
                     }
                 }
             }
@@ -85,8 +106,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "201": {
+                        "description": "Returns a success message and new category ID"
+                    },
+                    "400": {
+                        "description": "Returns an error message due to validation or a miscellaneous error"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
             },
@@ -111,7 +138,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Returns the category/categories' details"
+                    },
+                    "400": {
+                        "description": "Returns misc error"
                     }
                 }
             },
@@ -129,8 +159,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "202": {
+                        "description": "Success message with updated category id"
+                    },
+                    "400": {
+                        "description": "Misc error message"
+                    },
+                    "404": {
+                        "description": "Couldn't find category to update"
                     }
                 }
             },
@@ -144,8 +180,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "202": {
+                        "description": "Success message with deleted category's id"
+                    }, 
+                    "400": {
+                        "description": "Misc. error message"
+                    },
+                    "404": {
+                        "description": "Couldn't find category to delete"
                     }
                 }
             }
@@ -172,7 +214,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Returns the transaction(s) details"
+                    },
+                    "400": {
+                        "description": "Returns misc error"
                     }
                 }
             },
@@ -190,8 +235,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "202": {
+                        "description": "Success message with updated transaction id"
+                    },
+                    "400": {
+                        "description": "Misc error message"
+                    },
+                    "404": {
+                        "description": "Couldn't find transaction to update"
                     }
                 }
             },
@@ -205,8 +256,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "202": {
+                        "description": "Success message with deleted transaction's id"
+                    }, 
+                    "400": {
+                        "description": "Misc. error message"
+                    },
+                    "404": {
+                        "description": "Couldn't find transaction to delete"
                     }
                 }
             },
@@ -219,8 +276,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "201": {
+                        "description": "Returns a success message and new transaction ID"
+                    },
+                    "400": {
+                        "description": "Returns an error message due to validation or a miscellaneous error"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
             }
@@ -232,7 +295,7 @@
                     {
                         "name": "page",
                         "in": "path",
-                        "description": "What page of transactions to return"
+                        "description": "What page of budgets to return"
                     },
                     {
                         "name": "pageSize",
@@ -247,7 +310,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Returns the budget details"
+                    },
+                    "400": {
+                        "description": "Returns misc error"
                     }
                 }
             },
@@ -265,8 +331,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "202": {
+                        "description": "Success message with updated budget id"
+                    },
+                    "400": {
+                        "description": "Misc error message"
+                    },
+                    "404": {
+                        "description": "Couldn't find budget to update"
                     }
                 }
             },
@@ -279,8 +351,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "201": {
+                        "description": "Returns a success message and budget user ID"
+                    },
+                    "400": {
+                        "description": "Returns an error message due to validation or a miscellaneous error"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
             },
@@ -294,8 +372,14 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "202": {
+                        "description": "Success message with deleted budget's id"
+                    }, 
+                    "400": {
+                        "description": "Misc. error message"
+                    },
+                    "404": {
+                        "description": "Couldn't find budget to delete"
                     }
                 }
             }
