@@ -58,6 +58,9 @@ export const readTransaction = async (req: Request, res: Response) => {
         // Set up filters
         const userId = req.query.userId;
         let filter = req.body;
+
+        // Set order
+        let sortAscending = req.query.asc == null ? true : req.query.asc;
         
         if (userId != null) {
             filter.user = userId;
@@ -66,7 +69,7 @@ export const readTransaction = async (req: Request, res: Response) => {
         // Read in all categories
         const transactions = (await transactionCollection
             .find(req.body)
-            .sort({date: +1})
+            .sort(sortAscending ? {date: +1} : {date: -1})
             .skip((page - 1) * pageSize)
             .limit(pageSize)
             .toArray()) as Transaction[];
