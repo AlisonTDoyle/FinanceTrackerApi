@@ -66,6 +66,9 @@ export const readTransaction = async (req: Request, res: Response) => {
             filter.user = userId;
         }
 
+        // Count documents
+        let totalDocs = await transactionCollection.countDocuments();
+
         // Read in all categories
         const transactions = (await transactionCollection
             .find(req.body)
@@ -74,7 +77,7 @@ export const readTransaction = async (req: Request, res: Response) => {
             .limit(pageSize)
             .toArray()) as Transaction[];
 
-        res.status(200).json(transactions);
+        res.status(200).json({transactions, totalDocs});
     } catch (error) {
         let errorMessage: string;
 
