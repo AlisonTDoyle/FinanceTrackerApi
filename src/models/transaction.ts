@@ -1,25 +1,31 @@
 import Joi from "joi";
+import { Categories } from "../enums/categories";
 
 export interface Transaction {
     id:string;
     user:string;
     name:string;
     description:string;
-    category?:string;
+    category?:Categories;
     date:Date;
     price:number;
-    type:string;
+    type:TransactionType;
+}
+
+export enum TransactionType {
+    outgoing,
+    incomming
 }
 
 export const ValidateTransaction = (transaction:Transaction) => {
     const transactionSchema = Joi.object<Transaction>({
-        user: Joi.string().hex().length(24).required(),
+        // user: Joi.string().hex().length(24),
         name: Joi.string().min(3).required(),
         description: Joi.string().min(0).max(150),
-        category: Joi.string().hex().length(24),
+        category: Joi.string(),
         date: Joi.date().required(),
         price: Joi.number().min(0).required(),
-        type: Joi.string().min(2).max(3).required()
+        type: Joi.string().min(2).required()
     });
 
     return transactionSchema.validate(transaction);

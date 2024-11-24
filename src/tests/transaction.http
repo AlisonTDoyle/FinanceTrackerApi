@@ -8,10 +8,9 @@ POST {{endpoint}} HTTP/1.1
 Content-Type: application/json
 
 {
-    "user": "670949c97860dae8d02c05da",
     "name": "Example Transaction",
     "description": "This transaction is made for testing purposes",
-    "category": "670979ff54b144cdb7d87924",
+    "category": "transport",
     "date": "2024-09-03T16:00:00.000+00:00",
     "price": 24.99,
     "type": "out"

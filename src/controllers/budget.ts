@@ -1,7 +1,6 @@
 // Imports
 import { Request, Response } from "express";
-import { budgetCollection, categoryCollection } from "../database";
-import { Category } from "../models/category";
+import { budgetCollection } from "../database";
 import { ObjectId } from "mongodb";
 import { Budget, ValidateBudget } from "../models/budget";
 import Joi from "joi";
@@ -14,6 +13,7 @@ export const createBudget = async (req:Request, res:Response) => {
 
         if (validationResult.error) {
             res.status(400).json(validationResult.error);
+            console.log(validationResult.error)
             return;
         }
 
@@ -39,7 +39,6 @@ export const createBudget = async (req:Request, res:Response) => {
         } else {
             errorMessage = `Error: ${error}`
         }
-
         res.status(400).send(errorMessage);
     }
 };
@@ -50,10 +49,10 @@ export const readBudget = async (req:Request, res:Response) => {
         // Get page
         const page = parseInt(req.query.page as string) || 1;
         const pageSize = parseInt(req.query.pageSize as string) || 0;
-        
+
         // Set up filters
         const userId = req.query.userId;
-        let filter = req.body;
+        let filter = req.body.filter;
         
         if (userId != null) {
             filter.user = userId;
@@ -93,12 +92,15 @@ export const updateBudget = async (req:Request, res:Response) => {
             return;
         }
 
+
+        console.log(validationResult.error)
+
         // Parse id and convert to query
         let id: string = req.params.id;
         let query = { _id: new ObjectId(id) };
 
         // Create updated budget
-        let updateBudget : Category = req.body as Category;
+        let updateBudget : Budget = req.body as Budget;
 
         // Update database
         const result = await budgetCollection.updateOne(query, {$set: updateBudget});

@@ -12,6 +12,7 @@ const router: Router = express.Router();
 
 // Routes
 router.post('/', createTransaction);
+router.post('/filtered', readTransaction);
 
 router.get('/', readTransaction);
 

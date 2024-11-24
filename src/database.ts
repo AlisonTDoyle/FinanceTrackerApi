@@ -1,7 +1,6 @@
 // Imports
 import { MongoClient, Db, Collection } from "mongodb";
 import dotenv from "dotenv";
-import { Category } from "./models/category";
 import { User } from "./models/user";
 import { Transaction } from "./models/transaction";
 import { Budget } from "./models/budget";
@@ -16,13 +15,11 @@ const databaseName: string = process.env.DATABASE_NAME || "";
 let database:Db;
 let client: MongoClient = new MongoClient(connectionString);
 
-export let categoryCollection : Collection<Category>;
 export let userCollection : Collection<User>;
 export let transactionCollection: Collection<Transaction>;
 export let budgetCollection: Collection<Budget>;
 
 export let collections:{
-    categories?: Collection<Category>
     users?: Collection<User>
     transactions?: Collection<Transaction>
     budgets?: Collection<Budget>
@@ -33,12 +30,10 @@ client.connect().then(() => {
     database = client.db(databaseName);
 
     // Read in data
-    categoryCollection = database.collection('categories');
     userCollection = database.collection('users');
     transactionCollection = database.collection('transactions');
     budgetCollection = database.collection('budgets');
 
-    collections.categories = categoryCollection;
     collections.users = userCollection;
     collections.transactions = transactionCollection;
     collections.budgets = budgetCollection;

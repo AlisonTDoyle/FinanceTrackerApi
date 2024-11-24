@@ -1,6 +1,5 @@
 // Imports
 import express, { Application, Request, Response } from "express";
-import categoryRoutes from './routes/category';
 import userRoutes from './routes/user';
 import transactionRoutes from './routes/transaction';
 import budgetRoutes from './routes/budget';
@@ -17,7 +16,6 @@ const app: Application = express();
 // Adding functionality
 app.use(cors());
 app.use(express.json());
-app.use('/api/v1/category', categoryRoutes);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/transaction', transactionRoutes);
 app.use('/api/v1/budget', budgetRoutes);

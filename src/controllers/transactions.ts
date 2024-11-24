@@ -10,14 +10,17 @@ import Joi from "joi";
 // Create methods
 export const createTransaction = async (req: Request, res: Response) => {
     try {
+        console.log("Creating new transaction")
         // Validate transaction to be entered
         let validationResult: Joi.ValidationResult = ValidateTransaction(req.body);
 
         if (validationResult.error) {
+            console.log("Validation failed: " + validationResult.error)
             res.status(400).json(validationResult.error);
             return;
         }
 
+        console.log("Validation passed")
         // Create transaction
         let newTransaction: Transaction = req.body as Transaction;
 
@@ -63,6 +66,7 @@ export const readTransaction = async (req: Request, res: Response) => {
         // Read in all categories
         const transactions = (await transactionCollection
             .find(req.body)
+            .sort({date: +1})
             .skip((page - 1) * pageSize)
             .limit(pageSize)
             .toArray()) as Transaction[];
@@ -129,10 +133,13 @@ export const updateTransaction = async (req: Request, res: Response) => {
 export const deleteTransaction = async (req: Request, res: Response) => {
     try {
         // Parse id and convert to query
+        console.log("test")
         let id: string = req.params.id;
+        console.log(id)
         let query = { _id: new ObjectId(id) };
 
         // Delete from database
+        console.log("Tried deleting from db")
         const result = await transactionCollection.deleteOne(query);
 
         // Return result of action
@@ -151,6 +158,7 @@ export const deleteTransaction = async (req: Request, res: Response) => {
         } else {
             errorMessage = `Error: ${error}`
         }
+        console.log(errorMessage)
 
         res.status(400).send(errorMessage);
     }
