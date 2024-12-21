@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import { transactionCollection } from "../database";
 import { Transaction, ValidateTransaction } from "../models/transaction";
-import { ObjectId } from "mongodb";
+import { Filter, ObjectId } from "mongodb";
 import Joi from "joi";
 
 // Properties
@@ -57,13 +57,16 @@ export const readTransaction = async (req: Request, res: Response) => {
         
         // Set up filters
         const userId = req.query.userId;
-        let filter = req.body;
+        // let body = req.body;
+
+        console.log("User Id: " + userId)
 
         // Set order
         let sortAscending = req.query.asc == null ? true : req.query.asc;
-        
+    
+        let filter: Filter<Transaction> = {};
         if (userId != null) {
-            filter.user = userId;
+            filter = {"user": `${userId}`}
         }
 
         // Count documents
@@ -71,11 +74,13 @@ export const readTransaction = async (req: Request, res: Response) => {
 
         // Read in all categories
         const transactions = (await transactionCollection
-            .find(req.body)
+            .find(filter)
             .sort(sortAscending ? {date: +1} : {date: -1})
             .skip((page - 1) * pageSize)
             .limit(pageSize)
             .toArray()) as Transaction[];
+
+            console.log(transactions)
 
         res.status(200).json({transactions, totalDocs});
     } catch (error) {

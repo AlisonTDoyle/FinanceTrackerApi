@@ -25,7 +25,8 @@ export const ValidateTransaction = (transaction:Transaction) => {
         category: Joi.string(),
         date: Joi.date().required(),
         price: Joi.number().min(0).required(),
-        type: Joi.string().min(2).required()
+        type: Joi.string().min(2).required(),
+        user: Joi.string()
     });
 
     return transactionSchema.validate(transaction);
