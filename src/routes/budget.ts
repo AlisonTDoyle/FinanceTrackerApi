@@ -12,6 +12,7 @@ const router: Router = express.Router();
 
 // Routes
 router.post('/', createBudget);
+router.post('/filtered', readBudget);
 
 router.get('/', readBudget);
 

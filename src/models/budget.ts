@@ -12,7 +12,7 @@ export interface Budget {
 
 export const ValidateBudget = (budget:Budget) => {
     const budgetSchema = Joi.object<Budget>({
-        user: Joi.string().hex().length(24).required(),
+        user: Joi.string(),
         // total: Joi.number().required(),
         allocations: Joi.any(),
         start_date: Joi.date(),
