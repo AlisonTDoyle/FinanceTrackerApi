@@ -1,7 +1,7 @@
 // Imports
 import { Request, Response } from "express";
 import { budgetCollection } from "../database";
-import { ObjectId } from "mongodb";
+import { Filter, ObjectId } from "mongodb";
 import { Budget, ValidateBudget } from "../models/budget";
 import Joi from "joi";
 
@@ -52,13 +52,10 @@ export const readBudget = async (req:Request, res:Response) => {
 
         // Set up filters
         const userId = req.query.userId;
-        let filter = req.body.filter;
-        
+        let filter: Filter<Budget> = {};
         if (userId != null) {
-            filter.user = userId;
+            filter = {"user": `${userId}`}
         }
-
-        console.log(filter)
 
         // Read in all categories
         const budgets = (await budgetCollection

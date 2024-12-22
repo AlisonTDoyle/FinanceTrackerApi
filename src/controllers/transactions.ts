@@ -57,20 +57,17 @@ export const readTransaction = async (req: Request, res: Response) => {
         
         // Set up filters
         const userId = req.query.userId;
-        // let body = req.body;
-
-        console.log("User Id: " + userId)
-
-        // Set order
-        let sortAscending = req.query.asc == null ? true : req.query.asc;
     
         let filter: Filter<Transaction> = {};
         if (userId != null) {
             filter = {"user": `${userId}`}
         }
 
-        // Count documents
-        let totalDocs = await transactionCollection.countDocuments();
+        // Set order
+        let sortAscending = req.query.asc == null ? true : req.query.asc;
+
+        // Count documents for the specific user
+        let totalDocs = await transactionCollection.countDocuments(filter);
 
         // Read in all categories
         const transactions = (await transactionCollection
@@ -79,8 +76,6 @@ export const readTransaction = async (req: Request, res: Response) => {
             .skip((page - 1) * pageSize)
             .limit(pageSize)
             .toArray()) as Transaction[];
-
-            console.log(transactions)
 
         res.status(200).json({transactions, totalDocs});
     } catch (error) {
