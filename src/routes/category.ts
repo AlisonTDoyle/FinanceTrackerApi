@@ -1,6 +1,6 @@
 // Imports
 import express, { Router } from "express";
-import { approveCategory, createCategory, denyCategory, readAllCategories, readCategoriesByUserId } from "../controllers/category";
+import { approveCategory, createCategory, deleteCategory, denyCategory, readAllCategories, readCategoriesByUserId } from "../controllers/category";
 
 // Set up router
 const router: Router = express.Router();
@@ -13,6 +13,8 @@ router.get('/:id', readCategoriesByUserId);
 
 router.put('/approve/:id', approveCategory);
 router.put('/deny/:id', denyCategory);
+
+router.delete('/:id', deleteCategory);
 
 // Make router accessable
 export default router;

@@ -199,3 +199,36 @@ export const denyCategory = async (req: Request, res: Response) => {
 };
 
 // Delete methods
+export const deleteCategory = async (req: Request, res: Response) => {
+    try {
+        // Parse id and convert to query
+        let id: string = req.params.id;
+        // Parse id and convert to query
+        let query: Filter<Category> = { _id: new ObjectId(id) as unknown as string };
+        
+        // Delete from database
+        console.log("Tried deleting from db")
+        const result = await categoryCollection.deleteOne(query);
+
+        console.log(result);
+
+        // Return result of action
+        if (result && result.deletedCount) {
+            res.status(202).json({ message: `Successfully removed category with id ${id}` });
+        } else if (!result) {
+            res.status(400).json({ message: `Failed to remove category with id ${id}` });
+        } else if (!result.deletedCount) {
+            res.status(404).json({ message: `no transaction fround with id ${id}` });
+        }
+    } catch (error) {
+        let errorMessage: string;
+
+        if (error instanceof Error) {
+            errorMessage = `Error deleting category:\n${error.message}`;
+        } else {
+            errorMessage = `Error: ${error}`;
+        }
+
+        res.status(400).send(errorMessage);
+    }
+};
