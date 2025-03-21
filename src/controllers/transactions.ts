@@ -63,6 +63,8 @@ export const readTransaction = async (req: Request, res: Response) => {
             filter = {"user": `${userId}`}
         }
 
+        console.log(filter)
+
         // Set order
         let sortAscending = req.query.asc == null ? true : req.query.asc;
 

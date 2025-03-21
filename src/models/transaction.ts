@@ -1,12 +1,12 @@
 import Joi from "joi";
-import { Categories } from "../enums/categories";
+import { Category } from "./category";
 
 export interface Transaction {
     id:string;
     user:string;
     name:string;
     description:string;
-    category?:Categories;
+    category?:Category;
     date:Date;
     price:number;
     type:TransactionType;
@@ -22,7 +22,7 @@ export const ValidateTransaction = (transaction:Transaction) => {
         // user: Joi.string().hex().length(24),
         name: Joi.string().min(3).required(),
         description: Joi.string().min(0).max(150),
-        category: Joi.string(),
+        // category: Joi.string(),
         date: Joi.date().required(),
         price: Joi.number().min(0).required(),
         type: Joi.string().min(2).required(),
