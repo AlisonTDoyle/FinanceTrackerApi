@@ -1,4 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/uL0-klqZ)
 ## Database Diagram
 ```mermaid
 classDiagram
@@ -18,11 +17,6 @@ classDiagram
 		    date Date
 		    double Price
 		    string Type
-    }
-    
-    class User{
-		    ObjectId _id
-		    string Username
     }
     
     class Budget{
