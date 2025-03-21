@@ -4,6 +4,7 @@ import { Category, ValidateCategory } from "../models/category";
 import Joi from "joi";
 import { categoryCollection } from "../database";
 import { Filter } from "mongodb";
+import { CategoryStatus } from "../enums/category-status";
 
 // Properties
 
@@ -24,6 +25,9 @@ export const createCategory = async (req: Request, res: Response) => {
         console.log("Validation passed")
         // Create category
         let newCategory: Category = req.body as Category;
+
+        newCategory.created = new Date();
+        newCategory.status = CategoryStatus.Pending;
 
         // Add to database
         const result = await categoryCollection.insertOne(newCategory);
@@ -70,6 +74,50 @@ export const readCategoriesByUserId = async (req: Request, res: Response) => {
         const categories = (await categoryCollection.find(filter).toArray()) as Category[];
 
         res.status(200).json(categories);
+    } catch (error) {
+        let errorMessage: string;
+
+        if (error instanceof Error) {
+            errorMessage = `Error fetching transactions:\n${error.message}`
+        } else {
+            errorMessage = `Error: ${error}`
+        }
+
+        res.status(400).send(errorMessage);
+    }
+};
+
+export const readAllCategories = async (req: Request, res: Response) => {
+    try {
+        // Get page
+        const page = parseInt(req.query.page as string) || 1;
+        const pageSize = parseInt(req.query.pageSize as string) || 0;
+        
+        // Set up filters
+        const userId = req.query.userId;
+    
+        let filter: Filter<Category> = {};
+        if (userId != null) {
+            filter = {"user": `${userId}`}
+        }
+
+        console.log(filter)
+
+        // Set order
+        let sortAscending = req.query.asc == null ? true : req.query.asc;
+
+        // Count documents for the specific user
+        let totalDocs = await categoryCollection.countDocuments(filter);
+
+        // Read in all categories
+        const categories = (await categoryCollection
+            .find(filter)
+            .sort(sortAscending ? {name: +1} : {name: -1})
+            .skip((page - 1) * pageSize)
+            .limit(pageSize)
+            .toArray()) as Category[];
+
+        res.status(200).json({categories, totalDocs});
     } catch (error) {
         let errorMessage: string;
 
