@@ -53,7 +53,7 @@ export const createCategory = async (req: Request, res: Response) => {
 };
 
 // Read methods
-export const readCategories = async (req: Request, res: Response) => {
+export const readCategoriesByUserId = async (req: Request, res: Response) => {
     try {
         // Get user id
         const userId = req.query.userId;
