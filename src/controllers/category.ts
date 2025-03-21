@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { Category, ValidateCategory } from "../models/category";
 import Joi from "joi";
 import { categoryCollection } from "../database";
+import { Filter } from "mongodb";
 
 // Properties
 
@@ -52,6 +53,35 @@ export const createCategory = async (req: Request, res: Response) => {
 };
 
 // Read methods
+export const readCategories = async (req: Request, res: Response) => {
+    try {
+        // Get user id
+        const userId = req.query.userId;
+
+        // Set up filters
+        let filter:Filter<Category> = {};
+        if (userId != null) {
+            filter = {"user": `${userId}`}
+        }
+
+        console.log(filter)
+
+        // Get categories
+        const categories = (await categoryCollection.find(filter).toArray()) as Category[];
+
+        res.status(200).json(categories);
+    } catch (error) {
+        let errorMessage: string;
+
+        if (error instanceof Error) {
+            errorMessage = `Error fetching transactions:\n${error.message}`
+        } else {
+            errorMessage = `Error: ${error}`
+        }
+
+        res.status(400).send(errorMessage);
+    }
+};
 
 // Update methods
 
