@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { User } from "./models/user";
 import { Transaction } from "./models/transaction";
 import { Budget } from "./models/budget";
+import { Category } from "./models/category";
 
 // Environmental variables
 dotenv.config();
@@ -18,11 +19,13 @@ let client: MongoClient = new MongoClient(connectionString);
 export let userCollection : Collection<User>;
 export let transactionCollection: Collection<Transaction>;
 export let budgetCollection: Collection<Budget>;
+export let categoryCollection: Collection<Category>;
 
 export let collections:{
     users?: Collection<User>
     transactions?: Collection<Transaction>
     budgets?: Collection<Budget>
+    categories?: Collection<Category>
 } = {};
 
 // Connect to database
@@ -33,10 +36,12 @@ client.connect().then(() => {
     userCollection = database.collection('users');
     transactionCollection = database.collection('transactions');
     budgetCollection = database.collection('budgets');
+    categoryCollection = database.collection('categories');
 
     collections.users = userCollection;
     collections.transactions = transactionCollection;
     collections.budgets = budgetCollection;
+    collections.categories = categoryCollection;
 
     console.log("Connected to database");
 }).catch((error) => {

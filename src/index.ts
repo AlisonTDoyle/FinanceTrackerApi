@@ -3,6 +3,7 @@ import express, { Application, Request, Response } from "express";
 import userRoutes from './routes/user';
 import transactionRoutes from './routes/transaction';
 import budgetRoutes from './routes/budget';
+import categoryRoutes from './routes/category';
 import dotenv from "dotenv";
 import cors from "cors";
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/transaction', transactionRoutes);
 app.use('/api/v1/budget', budgetRoutes);
+app.use('/api/v1/category', categoryRoutes);
 
 // Routes
 app.get("/test", async (_req: Request, res: Response) => {
