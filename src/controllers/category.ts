@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { Category, ValidateCategory } from "../models/category";
 import Joi from "joi";
 import { categoryCollection } from "../database";
-import { Filter } from "mongodb";
+import { Filter, ObjectId } from "mongodb";
 import { CategoryStatus } from "../enums/category-status";
 
 // Properties
@@ -42,7 +42,7 @@ export const createCategory = async (req: Request, res: Response) => {
         }
 
     } catch (error) {
-        let errorMessage:string;
+        let errorMessage: string;
 
         // Select error message
         if (error instanceof Error) {
@@ -63,9 +63,9 @@ export const readCategoriesByUserId = async (req: Request, res: Response) => {
         const userId = req.query.userId;
 
         // Set up filters
-        let filter:Filter<Category> = {};
+        let filter: Filter<Category> = {};
         if (userId != null) {
-            filter = {"user": `${userId}`}
+            filter = { "user": `${userId}` }
         }
 
         console.log(filter)
@@ -92,13 +92,13 @@ export const readAllCategories = async (req: Request, res: Response) => {
         // Get page
         const page = parseInt(req.query.page as string) || 1;
         const pageSize = parseInt(req.query.pageSize as string) || 0;
-        
+
         // Set up filters
         const userId = req.query.userId;
-    
+
         let filter: Filter<Category> = {};
         if (userId != null) {
-            filter = {"user": `${userId}`}
+            filter = { "user": `${userId}` }
         }
 
         console.log(filter)
@@ -112,12 +112,12 @@ export const readAllCategories = async (req: Request, res: Response) => {
         // Read in all categories
         const categories = (await categoryCollection
             .find(filter)
-            .sort(sortAscending ? {name: +1} : {name: -1})
+            .sort(sortAscending ? { name: +1 } : { name: -1 })
             .skip((page - 1) * pageSize)
             .limit(pageSize)
             .toArray()) as Category[];
 
-        res.status(200).json({categories, totalDocs});
+        res.status(200).json({ categories, totalDocs });
     } catch (error) {
         let errorMessage: string;
 
@@ -132,5 +132,70 @@ export const readAllCategories = async (req: Request, res: Response) => {
 };
 
 // Update methods
+export const approveCategory = async (req: Request, res: Response) => {
+    try {
+        // Parse id and convert to query
+        let id: string = req.params.id;
+        // Parse id and convert to query
+        let query: Filter<Category> = { _id: new ObjectId(id) as unknown as string };
+
+        // Get category
+        const category = await categoryCollection.findOne(query) as Category | null;
+        if (!category) {
+            res.status(404).json({ message: "Category not found" });
+            return;
+        }
+        console.log(category);
+
+        // Update category
+        category.status = CategoryStatus.Approved;
+        await categoryCollection.updateOne(query, { $set: { status: category.status } });
+
+        res.status(200).json({ message: "Category approved" });
+    } catch (error) {
+        let errorMessage: string;
+
+        if (error instanceof Error) {
+            errorMessage = `Error approving category:\n${error.message}`
+        } else {
+            errorMessage = `Error: ${error}`
+        }
+
+        res.status(400).send(errorMessage);
+    }
+};
+
+export const denyCategory = async (req: Request, res: Response) => {
+    try {
+        // Parse id and convert to query
+        let id: string = req.params.id;
+        // Parse id and convert to query
+        let query: Filter<Category> = { _id: new ObjectId(id) as unknown as string };
+
+        // Get category
+        const category = await categoryCollection.findOne(query) as Category | null;
+        if (!category) {
+            res.status(404).json({ message: "Category not found" });
+            return;
+        }
+        console.log(category);
+
+        // Update category
+        category.status = CategoryStatus.Denied;
+        await categoryCollection.updateOne(query, { $set: { status: category.status } });
+
+        res.status(200).json({ message: "Category denied" });
+    } catch (error) {
+        let errorMessage: string;
+
+        if (error instanceof Error) {
+            errorMessage = `Error denying category:\n${error.message}`
+        } else {
+            errorMessage = `Error: ${error}`
+        }
+
+        res.status(400).send(errorMessage);
+    }
+};
 
 // Delete methods
