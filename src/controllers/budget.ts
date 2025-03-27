@@ -18,16 +18,15 @@ export const createBudget = async (req:Request, res:Response) => {
         }
 
         // Create budget
-        let newBudget : Budget = req.body as Budget;
+        let newBudget: Budget = req.body as Budget;
 
         // Add to database
         const result = await budgetCollection.insertOne(newBudget);
 
         // Return result of action
         if (result) {
-            res.status(201).location(`${result.insertedId}`).json({
-                message: `Created budget with id ${result.insertedId}`
-            });
+            const createdBudget = await budgetCollection.findOne({ _id: result.insertedId });
+            res.status(201).json(createdBudget);
         } else {
             res.status(500).send("Error: Failed to create budget");
         }
@@ -52,10 +51,11 @@ export const readBudget = async (req:Request, res:Response) => {
 
         // Set up filters
         const userId = req.query.userId;
-        let filter: Filter<Budget> = {};
+        let filter = req.body;
         if (userId != null) {
-            filter = {"user": `${userId}`}
+            filter = { ...filter, user: `${userId}` };
         }
+        console.log(filter)
 
         // Read in all categories
         const budgets = (await budgetCollection
