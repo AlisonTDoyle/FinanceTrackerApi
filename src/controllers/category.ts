@@ -60,15 +60,13 @@ export const createCategory = async (req: Request, res: Response) => {
 export const readCategoriesByUserId = async (req: Request, res: Response) => {
     try {
         // Get user id
-        const userId = req.query.userId;
+        const userId = req.params.id;
 
         // Set up filters
         let filter: Filter<Category> = {};
         if (userId != null) {
             filter = { "user": `${userId}` }
         }
-
-        console.log(filter)
 
         // Get categories
         const categories = (await categoryCollection.find(filter).toArray()) as Category[];
@@ -92,16 +90,7 @@ export const readAllCategories = async (req: Request, res: Response) => {
         // Get page
         const page = parseInt(req.query.page as string) || 1;
         const pageSize = parseInt(req.query.pageSize as string) || 0;
-
-        // Set up filters
-        const userId = req.query.userId;
-
-        let filter: Filter<Category> = {};
-        if (userId != null) {
-            filter = { "user": `${userId}` }
-        }
-
-        console.log(filter)
+        const filter = req.body;
 
         // Set order
         let sortAscending = req.query.asc == null ? true : req.query.asc;
